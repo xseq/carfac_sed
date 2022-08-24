@@ -1,8 +1,7 @@
-# audio related
+# Audio related
+.wav
 data/
-model/
-*.wav
-*.npz
+models/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
