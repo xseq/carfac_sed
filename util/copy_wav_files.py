@@ -12,26 +12,30 @@ os.system('clear')
 proj_path = os.path.abspath(os.getcwd())
 
 # parameters
-MAX_WAV_FILE_SIZE = 500000
+MAX_WAV_FILE_SIZE = 50000000  # last used: 500k
 
 # change the following to the source path name
-wav_src_path = '/media/xuan/XZ/Dataset/FSD50k/FSD50K.dev_audio/'
-wav_dst_path = proj_path + '/data/wav/'
+wav_src_path = '/media/xuan/XZ/Dataset/FSD50k/FSD50K.eval_audio/'  # change here
+wav_dst_path = proj_path + '/data/wav_eval/'  # change here
 
 with open(proj_path + '/csv/categories.csv', newline='') as csvfile:
     categories = np.array(list(csv.reader(csvfile)))
-with open(proj_path + '/csv/dev.csv', newline='') as csvfile:
+with open(proj_path + '/csv/eval.csv', newline='') as csvfile:   # change here
     dev_list = np.array(list(csv.reader(csvfile)))
 
+
+# initialization
 n_categories = len(categories)
 n_dev_data = len(dev_list)
 file_count = [0] * n_categories
+
 
 # creating folders
 for p in range(n_categories):
     mk_folder_name = wav_dst_path + categories[p, 1]
     os.mkdir(mk_folder_name)
 print('Folders created.')
+
 
 # moving files
 for p in range(1, n_dev_data):
@@ -48,6 +52,7 @@ for p in range(1, n_dev_data):
                     categories[q, 1] + ': ' + str(dev_list[p, 0]) + '.wav')
                 shutil.copy(src_name, dst_name)
 
+
 # display results
 print(' ')
 print('Task complete.')
@@ -55,16 +60,21 @@ for p in range(n_categories):
     print(categories[p, 1] + ': ' + str(file_count[p]))
 print('The number of wav files copied: ' + str(sum(file_count)))
 
-# results
-# Chink and Clink: 83
-# Clapping Hands: 293
-# Dropping Coins: 289
-# Coughing: 168
-# Opening Drawer: 66
-# Snapping Fingers: 126
-# Jangling Keys: 86
-# Knocking Doors: 35
-# Laughing: 516
-# Walking: 150
-# The number of wav files copied: 1812
+
+
+# dev set has 2200 files in total, covering all categories
+
+# eval set results
+# Task complete.
+# Chink and Clink: 38
+# Clapping Hands: 35
+# Dropping Coins: 41
+# Coughing: 49
+# Opening Drawer: 33
+# Snapping Fingers: 57
+# Jangling Keys: 41
+# Knocking Doors: 0    # manually copied 10 files
+# Laughing: 50
+# Walking: 46
+# The number of wav files copied: 390
 
