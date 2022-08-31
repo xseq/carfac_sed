@@ -20,7 +20,7 @@ y_train = data['y_train']
 x1 = x_train[0]
 print('Input Size: ' + str(x1.shape))
 data_type = x1[0][0].dtype
-print('Data type: ')output_shape
+print('Data type: ')
 print(data_type)
 
 x_train_shape = x_train.shape

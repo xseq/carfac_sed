@@ -1,4 +1,4 @@
-
+# audio signal feature processing for both training and inference
 
 import numpy as np
 import librosa
@@ -30,4 +30,11 @@ def get_features(data_in, FS_in):
         n_mels=128
     )
     return librosa.power_to_db(melspectrogram, ref=np.max)
+
+
+# truncating signal to a clip somewhat centered on the peak
+# zero padding as needed
+def truncate_signal(data_in, FS_in)
+    TIME_BEFORE_PEAK = 0.5  # seconds
+    TIME_AFTER_PEAK = 2.5   # seconds
 
