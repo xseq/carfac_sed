@@ -44,7 +44,7 @@ def truncate_signal(data_in, FS_in):
     data_abs = np.abs(data_in)
     peak_idx = np.argmax(data_abs)
     # zero-padding to avoid over- or under-flow
-    data_out = np.zeros(samples_before_peak) + 
+    data_out = np.zeros(samples_before_peak) + \
                 data_in + np.zeros(samples_after_peak)
     data_out = data_out[peak_idx:(peak_idx+samples_total-1)]
     return data_out
