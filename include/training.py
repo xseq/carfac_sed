@@ -30,12 +30,13 @@ logging.getLogger("tensorflow").setLevel(logging.ERROR)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 tf.random.set_seed(888)
+N_EPOCHS = 50
 
 
 # Step 0: Feature preprocessing, needed for audio but not for images
 proj_path = os.path.abspath(os.getcwd())
 npz_path = proj_path + '/data/npz/'
-npz_file_name = npz_path + 'data_20220802_2037.npz'
+npz_file_name = npz_path + 'data_20220908_1000.npz'
 data = np.load(npz_file_name)
 x_train = data['x_train']
 y_train = data['y_train']
@@ -57,7 +58,7 @@ model = tf.keras.models.Sequential([
         data_format='channels_last',
         input_shape=(128, 130, 1),
         filters=32,
-        kernel_size=(5, 5),
+        kernel_size=(3, 3),
         padding='same',
         activation=tf.nn.relu),  # output size: [n_samples,28,28,32]
 
@@ -74,9 +75,35 @@ model = tf.keras.models.Sequential([
         padding='same',
         activation=tf.nn.relu),  # output size: 
 
-    # maxpooling1
+            # maxpooling1
     tf.keras.layers.MaxPool2D(
         pool_size=(2, 2),
+        strides=2,
+        padding='same'),  # output size: [n_samples,14,14,32]
+
+    # conv2
+    tf.keras.layers.Conv2D(
+        filters=32,
+        kernel_size=(3, 3),
+        padding='same',
+        activation=tf.nn.relu),  # output size: 
+
+            # maxpooling1
+    tf.keras.layers.MaxPool2D(
+        pool_size=(2, 2),
+        strides=2,
+        padding='same'),  # output size: [n_samples,14,14,32]
+
+            # conv2
+    tf.keras.layers.Conv2D(
+        filters=32,
+        kernel_size=(3, 3),
+        padding='same',
+        activation=tf.nn.relu),  # output size: 
+
+    # maxpooling1
+    tf.keras.layers.MaxPool2D(
+        pool_size=(3, 3),
         strides=2,
         padding='same'),  # output size: 
 
@@ -124,7 +151,8 @@ model.compile(optimizer='adam',
 
 
 # Step 5: Training
-model.fit(x_train, y_train, epochs=100,)
+callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
+model.fit(x_train, y_train, epochs=N_EPOCHS,callbacks=[callback])
 # saving both model and weights
 model_name = proj_path + '/models/model_' + time_to_text() + '.h5'
 print(['Saving to model file: ' + model_name])

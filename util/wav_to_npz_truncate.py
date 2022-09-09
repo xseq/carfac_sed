@@ -50,8 +50,8 @@ for p in range(n_categories):
         f_name = label_folder + wav_file_list[q]
         _, data = wavfile.read(f_name)
         data = truncate_signal(data, FS)
-        data = data.astype(np.float32, order='C') / 32768.0
         data = np.array(data)
+        data = data.astype(np.float32, order='C') / 32768.0
         features = get_features(data, FS)    # shape: (128, 130)
         x_train.append(features)
         y_train.append(int(categories[p, 2]))   # a number that stands for the category
@@ -68,8 +68,8 @@ for p in range(n_categories):
         f_name = label_folder + wav_file_list[q]
         _, data = wavfile.read(f_name)
         data = truncate_signal(data, FS)
-        data = data.astype(np.float32, order='C') / 32768.0
         data = np.array(data)
+        data = data.astype(np.float32, order='C') / 32768.0
         features = get_features(data, FS)    # shape: (128, 130)
         x_test.append(features)
         y_test.append(int(categories[p, 2]))   # a number that stands for the category

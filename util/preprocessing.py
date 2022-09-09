@@ -37,18 +37,21 @@ def get_features(data_in, FS_in):
 def truncate_signal(data_in, FS_in):
     TIME_BEFORE_PEAK = 0.5  # seconds
     TIME_AFTER_PEAK = 2.5   # seconds
+    data_len = len(data_in)
     samples_before_peak = int(FS_in * TIME_BEFORE_PEAK)
     samples_after_peak = int(FS_in * TIME_AFTER_PEAK)  # including peak
     samples_total = samples_before_peak + samples_after_peak
+    peak_idx = np.argmax(np.abs(data_in))
+    
+    data_out = [0] * (data_len + samples_total)
+    # zero-padding to avoid over- or under-flow 
+    data_out[samples_before_peak:(samples_before_peak+data_len-1)] = data_in
 
-    data_abs = np.abs(data_in)
-    peak_idx = np.argmax(data_abs)
-    # zero-padding to avoid over- or under-flow
-    data_out = np.concatenate(
-        np.zeros(samples_before_peak), 
-        data_in,
-        np.zeros(samples_after_peak)
-    )
+
+    # # zero-padding to avoid over- or under-flow
+    # before = np.zeros(samples_before_peak, dtype='int16')
+    # after = np.zeros(samples_after_peak, dtype='int16')
+    # data_out = np.concatenate(before, data_in, after)
     # after zero padding, the peak idx is now the starting point
     data_out = data_out[peak_idx:(peak_idx+samples_total-1)]
     return data_out

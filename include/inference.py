@@ -53,7 +53,7 @@ print('\n\n')
 
 # load model
 proj_path = os.path.abspath(os.getcwd())
-f_name = proj_path + '/models/cnn_20220802.h5'
+f_name = proj_path + '/models/model_20220908_2057_0.76.h5'
 model = load_model(f_name)
 
 
