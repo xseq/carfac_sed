@@ -33,7 +33,7 @@ sample_format = pyaudio.paInt16
 N_CHANNELS = 1
 FS = 44100
 CLIP_DURATION = 3   # seconds
-CONFIDENCE_THRD = 5
+CONFIDENCE_THRD = 10
 MAX_DURATION = 120   # seconds
 
 
@@ -41,7 +41,7 @@ MAX_DURATION = 120   # seconds
 proj_path = os.path.abspath(os.getcwd())
 with open(proj_path + '/csv/categories.csv', newline='') as csvfile:
     categories = np.array(list(csv.reader(csvfile)))
-n_categories = len(categories)
+    n_categories = len(categories)
 
 
 # display introduction
@@ -125,6 +125,8 @@ for p in range(0, int(FS / FRAME_SIZE * MAX_DURATION)):
         event_idx = np.argmax(y_pred)
         event = categories[event_idx, 1]
         fig.suptitle('Event detected: ' + event, fontsize=20)
+        # resetting after an event is detected
+        # clip = np.zeros_like(clip)
     else:
         fig.suptitle('No event detected.', fontsize=20)
 
