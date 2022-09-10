@@ -58,7 +58,7 @@ model = tf.keras.models.Sequential([
         data_format='channels_last',
         input_shape=(128, 130, 1),
         filters=32,
-        kernel_size=(3, 3),
+        kernel_size=(5, 5),
         padding='same',
         activation=tf.nn.relu),  # output size: [n_samples,28,28,32]
 
@@ -71,11 +71,26 @@ model = tf.keras.models.Sequential([
     # conv2
     tf.keras.layers.Conv2D(
         filters=32,
-        kernel_size=(3, 3),
+        kernel_size=(2, 2),
         padding='same',
         activation=tf.nn.relu),  # output size: 
 
-            # maxpooling1
+    # maxpooling2
+    tf.keras.layers.MaxPool2D(
+        pool_size=(2, 2),
+        strides=2,
+        padding='same'),  # output size: [n_samples,14,14,32]
+
+    # conv3
+    tf.keras.layers.Conv2D(
+        data_format='channels_last',
+        input_shape=(128, 130, 1),
+        filters=32,
+        kernel_size=(2, 2),
+        padding='same',
+        activation=tf.nn.relu),  # output size: [n_samples,28,28,32]
+
+    # maxpooling3
     tf.keras.layers.MaxPool2D(
         pool_size=(2, 2),
         strides=2,
@@ -85,13 +100,13 @@ model = tf.keras.models.Sequential([
     # fc1
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(
-        units=256, 
+        units=512, 
         activation=tf.nn.relu
     ),
 
     # dropout 1
     tf.keras.layers.Dropout(
-        rate=0.5
+        rate=0.3
     ),
 
         # fc2
@@ -102,18 +117,7 @@ model = tf.keras.models.Sequential([
 
     # dropout 2
     tf.keras.layers.Dropout(
-        rate=0.5
-    ),
-
-    # fc2
-    tf.keras.layers.Dense(
-        units=32, 
-        activation=tf.nn.relu
-    ),
-
-    # dropout 2
-    tf.keras.layers.Dropout(
-        rate=0.5
+        rate=0.3
     ),
 
     # fc3
