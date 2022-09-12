@@ -19,7 +19,6 @@ from preprocessing import get_features
 from preprocessing import truncate_signal
 
 
-
 # parameters
 FS = 44100
 
